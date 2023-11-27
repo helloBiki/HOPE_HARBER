@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <style>
+        /* Your CSS styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Forgot Password</h1>
+        <p>Enter your registered email address to reset your password.</p>
+        <form id="forgotPasswordForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="button" id="sendOTPButton">Send OTP</button>
+            <div id="otpSection" style="display: none;">
+                <label for="otp">Enter OTP:</label>
+                <input type="text" id="otp" name="otp" required>
+                <button type="button" id="verifyOTPButton">Verify OTP</button>
+            </div>
+            <button type="submit" id="resetPasswordButton" style="display: none;">Reset Password</button>
+        </form>
+    </div>
+
+    <script>
+        // Your JavaScript code here
+        const sendOTPButton = document.getElementById('sendOTPButton');
+const verifyOTPButton = document.getElementById('verifyOTPButton');
+const otpSection = document.getElementById('otpSection');
+const resetPasswordButton = document.getElementById('resetPasswordButton');
+const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+
+sendOTPButton.addEventListener('click', async () => {
+    const email = document.getElementById('email').value;
+    const response = await sendOTP(email);
+    if (response.success) {
+        otpSection.style.display = 'block';
+        sendOTPButton.disabled = true;
+    } else {
+        alert('Error sending OTP. Please try again later.');
+    }
+});
+
+verifyOTPButton.addEventListener('click', () => {
+    // Perform OTP verification logic here
+    // If OTP is valid, show the reset password button
+    resetPasswordButton.style.display = 'block';
+    verifyOTPButton.disabled = true;
+});
+
+forgotPasswordForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const newPassword = prompt('Enter your new password:');
+    // Perform password reset logic here
+    alert('Password reset successful!');
+    // Redirect or perform other actions after password reset
+});
+
+async function sendOTP(email) {
+    try {
+        // Mock API endpoint to simulate OTP sending
+        const response = await fetch('https://api.mockotp.com/send', {
+            method: 'POST',
+            body: JSON.stringify({ email }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error sending OTP:', error);
+        return { success: false };
+    }
+}
+
+    </script>
+</body>
+</html>
